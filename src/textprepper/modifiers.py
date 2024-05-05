@@ -1,11 +1,12 @@
 from .base import Preprocessor
 
 import re
-from spellchecker import SpellChecker
-
-from langchain_core.documents import Document
 from typing import Optional, Dict, List
 
+from spellchecker import SpellChecker
+from deep_translator import GoogleTranslator
+from deep_translator.base import BaseTranslator
+from langchain_core.documents import Document
 
 class LowerText(Preprocessor):
     def process_text(self, text: str, *args, **kwargs) -> str:
@@ -93,3 +94,21 @@ class AddAnyMetadata(Preprocessor):
 
     def add_metadata(self, doc: Document, **kwargs) -> dict:
         return self.metadata
+
+
+class LanguageTranslator(Preprocessor):
+    source_lng: str
+    target_lng: str
+    
+    
+class GoogleTrans(LanguageTranslator):
+    source_lng: str = "auto"
+    _translator: BaseTranslator = None
+    
+    def model_post_init(self, __context) -> None:
+        self._translator = GoogleTranslator(source=self.source_lng,
+                                            target=self.target_lng)
+    
+    def process_text(self, text: str, *args, **kwargs) -> str:
+        return self._translator.translate(text)
+    
