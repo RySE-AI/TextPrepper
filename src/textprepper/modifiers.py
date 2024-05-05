@@ -20,7 +20,7 @@ class UpperText(Preprocessor):
 
 class SpellChecking(Preprocessor):
     language: str = "en"
-    distance: int = 1
+    distance: int = 2
     case_sensitive: bool = False
     known_words: Optional[List[str]] = None
     known_words_from_file: Optional[str] = None
