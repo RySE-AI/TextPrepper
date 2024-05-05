@@ -13,6 +13,7 @@ nltk = "^3.8.1"
 spacy = "^3.7.4"
 pydantic = "^2.7.1"
 pyspellchecker = "^0.8.1"
+deep-translator = "^1.11.4"
 
 
 [tool.poetry.group.dev.dependencies]
