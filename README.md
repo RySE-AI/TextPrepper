@@ -31,7 +31,7 @@ print(simple_chain.invoke("This is a test."))
 # messages=[HumanMessage(content='Question: Das ist ein Test.')]
 ```
 
-You can find a more detailed example how to integrate it a preprocessor in this
+You can find a more detailed example how to integrate a preprocessor in this
 [notebook](./examples/01_How-to_use_processor_in_LCEL.ipynb). 
 
 #### Example: Document Preprocessing / Cleaning
