@@ -7,17 +7,22 @@ This module should help you from simple text/document transformations to seamles
 
 ## Installation
 
-I'll create a pypi package soon.
+> [!WARNING]
+> This is my first published pypi package, so there might be some issues. And some preprocessors are not tested yet!
+
+```bash
+pip install textprepper
+```
 
 ## Introduction
 
-TextPrepper helps you with the preprocessing steps essential for natural language processing tasks. Data understanding and cleaning are important steps in building effective ML applications, but let's be honest, not everyone has the time to analyze every PDF, text file, or other documents in their company and maybe you can't/are not allowed use tools like unstructured. I also struggled to find an effective tool for creating a preprocessing pipeline that could be easily integrated into my LCEL Chains, e.g. to manipulating the query in the same way I manipulated my documents.
+TextPrepper helps you with the preprocessing steps essential for natural language processing tasks. Data understanding and cleaning are important steps in building effective ML applications, but let's be honest, not everyone has the time to analyze every PDF, text file, or other documents in their company and maybe you can't/are not allowed use tools like unstructured. Additionally I struggled to find an effective tool for creating a preprocessing pipeline that could be easily integrated into my LCEL Chains, e.g. to manipulating the query in the same way I manipulated my documents.
 
 That’s why I began building my own collection of text preprocessors, which I can not only reuse across various projects but also adapt seamlessly into LCEL chains. I primarily adapted the content from berknolgoy's package [text-preprocessing](https://github.com/berknology/text-preprocessing) and some kaggle examples in object-oriented fashion. My approach was inspired by the torchvision's [compose/transform](https://pytorch.org/vision/main/generated/torchvision.transforms.Compose.html) behavior.
 
 ## Quickstart
 
-> [!NOTE] Info
+> [!IMPORTANT]
 > If you're using a preprocessor, it will overwrite the document's page_content **inplace**!
 
 ### Example 1: Document Preprocessing / Cleaning
