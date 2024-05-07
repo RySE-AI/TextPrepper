@@ -1,5 +1,5 @@
 import abc
-from typing import List, Dict
+from typing import List, Dict, Union
 from pydantic import BaseModel
 
 from langchain_core.documents import Document
@@ -19,7 +19,7 @@ class Preprocessor(BaseModel, abc.ABC):
         doc = AddABC123ToMetadata(doc)
     """
 
-    def __call__(self, content: Document | str, *args, **kwargs) -> Document | str:
+    def __call__(self, content: Union[str, Document], *args, **kwargs) -> Union[str, Document]:
         if isinstance(content, Document):
             out = self.process_document(content, *args, **kwargs)
         elif isinstance(content, str):
@@ -64,7 +64,7 @@ class DocumentPreprocessorPipe:
     def __init__(self, preprocessors) -> None:
         self.preprocessors: List[Preprocessor] = preprocessors
 
-    def __call__(self, input: str | Document, *args, **kwargs) -> str | Document:
+    def __call__(self, input: Union[str, Document], *args, **kwargs) -> Union[str, Document]:
         for p in self.preprocessors:
             input = p(input, *args, **kwargs)
 
