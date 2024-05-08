@@ -8,17 +8,28 @@ from deep_translator import GoogleTranslator
 from deep_translator.base import BaseTranslator
 from langchain_core.documents import Document
 
+
 class LowerText(Preprocessor):
+    """A preprocessor class for converting all text to lowercase."""
+
     def process_text(self, text: str, *args, **kwargs) -> str:
         return text.lower()
 
 
 class UpperText(Preprocessor):
+    """A preprocessor class for converting all text to uppercase."""
+
     def process_text(self, text: str, *args, **kwargs) -> str:
         return text.upper()
 
 
+# TODO: Write Tests
+# TODO: handle punctuations and none types
 class SpellChecking(Preprocessor):
+    """A preprocessor class to correct spelling in the text.This spellchecker
+    uses pyspellchecker.
+    """
+
     language: str = "en"
     distance: int = 2
     case_sensitive: bool = False
@@ -54,6 +65,8 @@ class SpellChecking(Preprocessor):
 
 
 class MultipleRegexStringReplacer(Preprocessor):
+    """A preprocessor class to replace strings based on multiple regex rules."""
+
     rules: Dict
     _rep: Dict = dict()
     _pattern: re.Pattern = None
@@ -68,6 +81,8 @@ class MultipleRegexStringReplacer(Preprocessor):
 
 
 class AnyTextReplacer(Preprocessor):
+    """A preprocessor class to replace specified substrings with another substring."""
+
     strings_to_replace: List[str]
     repl_with: str
     count: int = -1
@@ -79,6 +94,10 @@ class AnyTextReplacer(Preprocessor):
 
 
 class AnyRegReplacer(Preprocessor):
+    """A preprocessor class to replace text based on a regex pattern. The
+    processor uses re.sub(...).
+    """
+
     regex_pattern: str
     repl_with: str
 
@@ -87,6 +106,8 @@ class AnyRegReplacer(Preprocessor):
 
 
 class AddAnyMetadata(Preprocessor):
+    """A preprocessor class to add arbitrary metadata to a document."""
+
     metadata: dict
 
     def process_text(self, text: str, *args, **kwargs) -> str:
@@ -97,18 +118,24 @@ class AddAnyMetadata(Preprocessor):
 
 
 class LanguageTranslator(Preprocessor):
+    """Base abstract class for language translators"""
+
     source_lng: str
     target_lng: str
-    
-    
+
+
 class GoogleTrans(LanguageTranslator):
+    """A preprocessor class for translating text using Google's translation
+    services. The class uses deep-translators implementation.
+    """
+
     source_lng: str = "auto"
     _translator: BaseTranslator = None
-    
+
     def model_post_init(self, __context) -> None:
-        self._translator = GoogleTranslator(source=self.source_lng,
-                                            target=self.target_lng)
-    
+        self._translator = GoogleTranslator(
+            source=self.source_lng, target=self.target_lng
+        )
+
     def process_text(self, text: str, *args, **kwargs) -> str:
         return self._translator.translate(text)
-    

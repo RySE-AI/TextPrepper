@@ -10,6 +10,8 @@ from typing import List
 
 
 class RemovePunctuation(Preprocessor):
+    """A preprocessor class to remove punctuation from text."""
+
     punctuations: str = string.punctuation
 
     def process_text(self, text: str, *args, **kwargs) -> str:
@@ -17,6 +19,8 @@ class RemovePunctuation(Preprocessor):
 
 
 class RemoveWhitespace(Preprocessor):
+    """A preprocessor class to remove excess whitespace from text."""
+
     remove_double_whitespaces: bool = False
 
     def process_text(self, text: str, *args, **kwargs) -> str:
@@ -26,11 +30,16 @@ class RemoveWhitespace(Preprocessor):
 
 
 class NLTKRemoveStopwords(Preprocessor):
+    """
+    A preprocessor class to remove stopwords from text using the NLTK library.
+    You need to download the nltk stopwords/punkt before using this processor.
+    """
+
     language: str = "english"
     _stopwords: List[str] = list()
 
     def model_post_init(self, __context) -> None:
-        try: 
+        try:
             self._stopwords = set(stopwords.words(self.language))
         except LookupError as e:
             print(f"Failed to find: {e}")
@@ -53,6 +62,10 @@ class RemoveHeader(Preprocessor):
 
 
 class RemoveNewLines(AnyRegReplacer):
+    """
+    A preprocessor class to remove specific counts of newline characters from text.
+    """
+
     count: int = 1
     repl_with: str = ""
     regex_pattern: str = ""
@@ -62,6 +75,8 @@ class RemoveNewLines(AnyRegReplacer):
 
 
 class RemoveEmojis(Preprocessor):
+    """A preprocessor class to remove emojis from text."""
+
     regex_compiler: re.Pattern = re.compile(
         "["
         "\U0001F600-\U0001F64F"  # emoji
@@ -80,20 +95,28 @@ class RemoveEmojis(Preprocessor):
 
 
 class RemoveHyphens(AnyTextReplacer):
+    """A preprocessor class to remove hyphens from text, including soft hyphens."""
+
     strings_to_replace: List[str] = ["\xc2\xad", "\xad", "\u00ad", "-\n"]
     repl_with: str = ""
 
 
 class RemoveURL(AnyRegReplacer):
+    """A preprocessor class to remove URLs from text."""
+
     regex_pattern: str = r"(www|http)\S+"
     repl_with: str = ""
 
 
 class RemoveEmails(AnyRegReplacer):
+    """A preprocessor class to remove email addresses from text."""
+
     regex_pattern: str = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,3}\b"
     repl_with: str = ""
 
 
 class RemoveHTMLTags(AnyRegReplacer):
+    """A preprocessor class to remove HTML tags from text."""
+
     regex_pattern: str = r"<.*?>"
     repl_with: str = ""
