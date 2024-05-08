@@ -6,17 +6,20 @@ from langchain_core.documents import Document
 
 
 class Preprocessor(BaseModel, abc.ABC):
-    """Abstract base class to create a Langchain Document preprocessor.
-    Inherit from the class and change the preprocess method.
+    """Abstract base class to create a Langchain Document/string preprocessor.
+    Inherit from the class and change the preprocess_text method for your purpose.
+    Please be aware of that changes on documents are inplace, the process_document
+    method
+    
 
     Example:
-    class AddABC123ToMetadata(Preprocessor):
-        def preprocess_page(self, doc, *args, **kwargs):
-            doc.metadata.update({"ABC": 123})
-            return doc
-
-    for doc in documents: # LangChain Documents
-        doc = AddABC123ToMetadata(doc)
+    class LowerTextAndAdd123ToMetadata(Preprocessor):
+        def preprocess_text(self, text, *args, **kwargs):
+            text = text.lower()
+            return text
+        
+        def add_metadata(self, doc: Document, **kwargs)
+            return {"123": "ABC"}
     """
 
     def __call__(self, content: Union[str, Document], *args, **kwargs) -> Union[str, Document]:
@@ -43,22 +46,21 @@ class Preprocessor(BaseModel, abc.ABC):
 
 
 class DocumentPreprocessorPipe:
-    """Composes several preprocessors together.
+    """Composes several preprocessors together and call the pipe on strins and
+    langchain documents. THh pipe performs the preprocessors sequentially.
 
     Args:
         preprocessors (List[Preprocessor]): A list of preprocessors which will be
         applied sequentially to a document.
 
     Example:
-        compose = PreprocessorComposer(
-                preprocessors=[
-                            RemoveHeader(),
-                            SimpleDehyphens(),
-                            RemoveStartingNumbers(),
-                            AddSectionNamesWithTOC(file_path=file_path)])
+        doc_pipe = DocumentPreprocessorPipe(
+                            [LowerText(),
+                            RemoveNewLines(count=1),
+                            RemoveWhitespace()])
 
-        for doc in documents: # LangChain Documents
-            doc = compose(doc)
+        doc_pipe(single_text_or_document)
+        doc_pipe.from_documents(your_documents)
     """
 
     def __init__(self, preprocessors) -> None:
