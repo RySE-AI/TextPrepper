@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "textprepper"
-version = "0.0.1"
+version = "0.0.2"
 description = "TextPrepper is a simple text preprocessing tool designed to modify queries and documents for Langchain applications."
 authors = ["RySE-AI <Ryo.Shibata@outlook.de>"]
 readme = "README.md"
@@ -9,7 +9,7 @@ license = "Apache-2.0"
 repository = "https://github.com/RySE-AI/TextPrepper"
 
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English"
 ]
@@ -17,7 +17,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
-langchain-core = "^0.1.48"
+langchain-core = "0.*"
 nltk = "^3.6.7"
 pydantic = "^2.6.1"
 pyspellchecker = "^0.8.0"
@@ -36,13 +36,10 @@ black = "^24.4.2"
 langchain-community = "^0.0.36"
 pypdf = "^4.2.0"
 langchain = "^0.1.17"
-
-
-
-[tool.poetry.group.example.dependencies]
 chromadb = "^0.5.0"
 sentence-transformers = "^2.7.0"
 langchain-openai = "^0.1.6"
+
 
 [build-system]
 requires = ["poetry-core"]
